@@ -32,9 +32,12 @@ final result = await BackgroundImageGallerySaver.saveFile(file);
 ## Special Notes
 
 ** Only Android Support
+
 ** The plugin is based on [hui-z
 /
-image_gallery_saver](https://github.com/hui-z/image_gallery_saver) and [CarnegieTechnologies
+image_gallery_saver](https://github.com/hui-z/image_gallery_saver) 
+
+and [CarnegieTechnologies
 /
 gallery_saver](https://github.com/CarnegieTechnologies/gallery_saver)
 
