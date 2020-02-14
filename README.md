@@ -5,7 +5,7 @@ It will save image to the gallery. It uses Kotlin coroutines default thead for s
 # How to Use
 You need to include kotlin coroutines for your app build.gradle file
 
-```
+```gradle
 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 ```
