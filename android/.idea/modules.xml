@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/background_image_gallery_saver.iml" filepath="$PROJECT_DIR$/background_image_gallery_saver.iml" group="background_image_gallery_saver" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.background_image_gallery_saver-background_image_gallery_saver.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.background_image_gallery_saver-background_image_gallery_saver.iml" group="background_image_gallery_saver" />
     </modules>
   </component>
 </project>
