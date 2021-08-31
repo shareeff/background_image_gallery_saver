@@ -15,17 +15,19 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 import kotlinx.coroutines.*
 import java.io.*
-import java.lang.Exception
+
 
 /** BackgroundImageGallerySaverPlugin */
-public class BackgroundImageGallerySaverPlugin: FlutterPlugin, MethodCallHandler, CoroutineScope by MainScope()  {
+class BackgroundImageGallerySaverPlugin: FlutterPlugin, MethodCallHandler, CoroutineScope by MainScope()  {
+
+  private lateinit var channel : MethodChannel
+
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    val channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "background_image_gallery_saver")
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "background_image_gallery_saver")
     applicationContext = flutterPluginBinding.applicationContext
-    channel.setMethodCallHandler(BackgroundImageGallerySaverPlugin());
+    channel.setMethodCallHandler(this);
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -38,37 +40,29 @@ public class BackgroundImageGallerySaverPlugin: FlutterPlugin, MethodCallHandler
   // depending on the user's project. onAttachedToEngine or registerWith must both be defined
   // in the same class.
   companion object {
-    private var registrar: Registrar? = null
     private var applicationContext: Context? =null
-    @JvmStatic
-    fun registerWith(reg: Registrar) {
-      val channel = MethodChannel(reg.messenger(), "background_image_gallery_saver")
-      channel.setMethodCallHandler(BackgroundImageGallerySaverPlugin())
-      registrar = reg
-    }
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    when{
-      call.method == "getPlatformVersion" -> {
-        result.success("Android ${android.os.Build.VERSION.RELEASE}")
-      }
-      call.method == "saveImageToGallery" -> {
-        val image = call.arguments as ByteArray
-        launch {
-          result.success(saveImageToGallery(BitmapFactory.decodeByteArray(image,0,image.size)))
+    when (call.method) {
+        "getPlatformVersion" -> {
+          result.success("Android ${android.os.Build.VERSION.RELEASE}")
         }
+        "saveImageToGallery" -> {
+          val image = call.arguments as ByteArray
+          launch {
+            result.success(saveImageToGallery(BitmapFactory.decodeByteArray(image,0,image.size)))
+          }
 
-      }
-      call.method == "saveFileToGallery" -> {
-        val path = call.arguments as String
-        launch {
-          result.success(saveFileToGallery(path))
         }
+        "saveFileToGallery" -> {
+          val path = call.arguments as String
+          launch {
+            result.success(saveFileToGallery(path))
+          }
 
-      }
-      else -> result.notImplemented()
-
+        }
+        else -> result.notImplemented()
     }
   }
 
@@ -206,14 +200,12 @@ public class BackgroundImageGallerySaverPlugin: FlutterPlugin, MethodCallHandler
       ai = context?.packageManager?.getApplicationInfo(context.packageName, 0)
     } catch (e: PackageManager.NameNotFoundException) {
     }
-    var appName: String
-    appName = if (ai != null) {
+    return if (ai != null) {
       val charSequence = context?.packageManager?.getApplicationLabel(ai)
       StringBuilder(charSequence!!.length).append(charSequence).toString()
     } else {
       "Background_Image_Gallery_Saver"
     }
-    return  appName
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {

@@ -8,11 +8,16 @@ import 'package:background_image_gallery_saver/background_image_gallery_saver.da
 
 class ImageProviderViewModel extends ChangeNotifier {
   Uint8List _pickedImage;
+  final picker = ImagePicker();
   ImageProviderViewModel() {
-    PermissionHandler().requestPermissions(<PermissionGroup>[
-      PermissionGroup.camera,
-      PermissionGroup.storage,
-    ]);
+    requestPermission();
+  }
+
+  Future<void> requestPermission() async {
+    await [
+      Permission.camera,
+      Permission.storage,
+    ].request();
   }
 
   Uint8List get pickedImage => _pickedImage;
@@ -22,19 +27,19 @@ class ImageProviderViewModel extends ChangeNotifier {
   }
 
   Future pickCameraImage() async {
-    ImagePicker.pickImage(source: ImageSource.camera)
-        .then((File recordedImage) {
+    picker.pickImage(source: ImageSource.camera)
+        .then((recordedImage) {
       if (recordedImage != null && recordedImage.path != null) {
-        pickedImage = recordedImage.readAsBytesSync();
+        pickedImage = File(recordedImage.path).readAsBytesSync();
       }
     });
   }
 
   Future pickGalleryImage() async {
-    ImagePicker.pickImage(source: ImageSource.gallery)
-        .then((File recordedImage) {
+    picker.pickImage(source: ImageSource.gallery)
+        .then((recordedImage) {
       if (recordedImage != null && recordedImage.path != null) {
-        pickedImage = recordedImage.readAsBytesSync();
+        pickedImage = File(recordedImage.path).readAsBytesSync();
       }
     });
   }

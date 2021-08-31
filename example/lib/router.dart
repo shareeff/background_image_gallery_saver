@@ -7,7 +7,7 @@ class RoutePaths {
   static const String Home = "/";
 }
 
-class Router {
+class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutePaths.Home:
