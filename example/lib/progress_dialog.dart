@@ -3,7 +3,7 @@ import 'image_provider_view_model.dart';
 
 class ProgressDialog extends StatefulWidget {
   final ImageProviderViewModel imageProviderViewModel;
-  ProgressDialog({Key key, @required this.imageProviderViewModel})
+  ProgressDialog({Key? key, required this.imageProviderViewModel})
       : super(key: key);
   @override
   _ProgressDialogState createState() => _ProgressDialogState();
@@ -47,15 +47,15 @@ class _ProgressDialogState extends State<ProgressDialog> {
                     stream: _saveImage(),
                     //initialData: null,
                     builder: (context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.hasData) {
+                      if (snapshot.hasData && !snapshot.hasError) {
                         print(snapshot.data);
-                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                        WidgetsBinding.instance!.addPostFrameCallback((_) async {
                           Navigator.of(context).pop(true);
                         });
 
                         return Center(
                             child: Text(
-                          snapshot.data,
+                          snapshot.data!,
                           style: TextStyle(color: Colors.blueAccent),
                         ));
                       } else {

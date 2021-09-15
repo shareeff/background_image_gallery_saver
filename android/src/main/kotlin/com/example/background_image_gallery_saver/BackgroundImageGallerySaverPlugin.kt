@@ -209,5 +209,6 @@ class BackgroundImageGallerySaverPlugin: FlutterPlugin, MethodCallHandler, Corou
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    channel.setMethodCallHandler(null);
   }
 }

@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:background_image_gallery_saver/background_image_gallery_saver.dart';
 
 class ImageProviderViewModel extends ChangeNotifier {
-  Uint8List _pickedImage;
+  Uint8List? _pickedImage;
   final picker = ImagePicker();
   ImageProviderViewModel() {
     requestPermission();
@@ -20,8 +20,8 @@ class ImageProviderViewModel extends ChangeNotifier {
     ].request();
   }
 
-  Uint8List get pickedImage => _pickedImage;
-  set pickedImage(Uint8List image) {
+  Uint8List? get pickedImage => _pickedImage;
+  set pickedImage(Uint8List? image) {
     _pickedImage = image;
     notifyListeners();
   }
@@ -29,7 +29,7 @@ class ImageProviderViewModel extends ChangeNotifier {
   Future pickCameraImage() async {
     picker.pickImage(source: ImageSource.camera)
         .then((recordedImage) {
-      if (recordedImage != null && recordedImage.path != null) {
+      if (recordedImage != null) {
         pickedImage = File(recordedImage.path).readAsBytesSync();
       }
     });
@@ -38,15 +38,15 @@ class ImageProviderViewModel extends ChangeNotifier {
   Future pickGalleryImage() async {
     picker.pickImage(source: ImageSource.gallery)
         .then((recordedImage) {
-      if (recordedImage != null && recordedImage.path != null) {
+      if (recordedImage != null) {
         pickedImage = File(recordedImage.path).readAsBytesSync();
       }
     });
   }
 
   Future<String> saveImage() async {
-    if (pickedImage.isNotEmpty) {
-      final result = await BackgroundImageGallerySaver.saveImage(pickedImage);
+    if (pickedImage != null) {
+      final result = await BackgroundImageGallerySaver.saveImage(pickedImage!);
       print(result);
       return "Image Saved";
     } else {

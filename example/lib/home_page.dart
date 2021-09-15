@@ -10,6 +10,16 @@ class HomePage extends StatelessWidget {
     final _screenWidth = MediaQuery.of(context).size.width - 32;
     final _imageProviderViewModel =
         Provider.of<ImageProviderViewModel>(context, listen: true);
+
+    final ButtonStyle btnStyle =
+        ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+                                fontFamily: 'arial',
+                                color: Colors.white,
+                                fontSize: 18,
+                                letterSpacing: 1.4),
+          primary: Colors.lightGreen[800],
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -39,7 +49,7 @@ class HomePage extends StatelessWidget {
                             )
                           : Ink.image(
                               image: new MemoryImage(
-                                  _imageProviderViewModel.pickedImage),
+                                  _imageProviderViewModel.pickedImage!),
                               fit: BoxFit.fitWidth,
                             ),
                     ),
@@ -50,43 +60,22 @@ class HomePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            RaisedButton(
-                              child: Text("Camera",
-                                  style: TextStyle(
-                                      fontFamily: 'arial',
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      letterSpacing: 1.4)),
+                            ElevatedButton(
+                              style: btnStyle,
+                              child: Text("Camera"),
                               onPressed: () =>
                                   _imageProviderViewModel.pickCameraImage(),
-                              color: Colors.lightGreen[800],
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                              splashColor: Colors.grey,
                             ),
-                            RaisedButton(
-                              child: Text("Gallery",
-                                  style: TextStyle(
-                                      fontFamily: 'arial',
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      letterSpacing: 1.4)),
+                            ElevatedButton(
+                              style: btnStyle,
+                              child: Text("Gallery"),
                               onPressed: () =>
                                   _imageProviderViewModel.pickGalleryImage(),
-                              color: Colors.lightGreen[800],
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                              splashColor: Colors.grey,
                             ),
-                            RaisedButton(
-                              child: Text("Save",
-                                  style: TextStyle(
-                                      fontFamily: 'arial',
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      letterSpacing: 1.4)),
+                            ElevatedButton(
+                              style: btnStyle,
+                              child: Text("Save"),
                               onPressed: () => _buildSaveImageDialog(context),
-                              color: Colors.lightGreen[800],
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                              splashColor: Colors.grey,
                             ),
                           ],
                         ),
