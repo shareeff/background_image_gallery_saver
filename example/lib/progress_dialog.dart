@@ -49,7 +49,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                     builder: (context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData && !snapshot.hasError) {
                         print(snapshot.data);
-                        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                        WidgetsBinding.instance.addPostFrameCallback((_) async {
                           Navigator.of(context).pop(true);
                         });
 
